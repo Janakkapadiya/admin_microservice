@@ -1,10 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import * as nodemailer from 'nodemailer';
+import { SentMessageInfo } from 'nodemailer/lib/smtp-transport';
 import { EnvironmentConfigService } from '../../config/environment-config/environment-config.service';
+import { IEmailService } from '@app/shared/domain/adepters/email.interface';
 
 @Injectable()
-export class MailerService {
-  private readonly transport;
+export class MailerService implements IEmailService {
+  private readonly transport: nodemailer.Transporter<SentMessageInfo>;
 
   constructor(private readonly emailConfig: EnvironmentConfigService) {
     this.transport = nodemailer.createTransport({
@@ -17,7 +19,6 @@ export class MailerService {
       },
     });
   }
-
   async sendEmail(to: string, subject: string, body: string): Promise<boolean> {
     try {
       const mailOptions = {

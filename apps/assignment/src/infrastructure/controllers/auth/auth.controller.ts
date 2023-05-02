@@ -17,7 +17,7 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 
-import { AuthLoginDto } from './auth-dto.class';
+import RegisterDto, { AuthLoginDto } from './auth-dto.class';
 import { IsAuthPresenter } from './auth.presenter';
 
 import { JwtAuthGuard } from '../../../../../../libs/shared/src/infrastructure/common/guards/jwtAuth.guard';
@@ -28,6 +28,8 @@ import { IsAuthenticatedUseCases } from '../../../usecases/auth/isAuthenticated.
 import { LogoutUseCases } from '../../../usecases/auth/logout.usecases';
 import { UsecasesProxyModule } from 'apps/assignment/src/infrastructure/usecase-proxy/usecases-proxy.module';
 import { UseCaseProxy } from 'apps/assignment/src/infrastructure/usecase-proxy/usecases-proxy';
+import { ApiResponseType } from '@app/shared/infrastructure/common/swagger/res.decorator';
+import { RegisterUseCases } from 'apps/assignment/src/usecases/auth/register.user.usecase';
 
 @Controller('auth')
 @ApiTags('auth')
@@ -45,10 +47,20 @@ export class AuthController {
     private readonly logoutUsecaseProxy: UseCaseProxy<LogoutUseCases>,
     @Inject(UsecasesProxyModule.IS_AUTHENTICATED_USECASES_PROXY)
     private readonly isAuthUsecaseProxy: UseCaseProxy<IsAuthenticatedUseCases>,
+    @Inject(UsecasesProxyModule.REGISTER_USER_USECASES_PROXY)
+    private readonly registerUserTestCasesProxy: UseCaseProxy<RegisterUseCases>,
   ) {}
 
+  @Post('register')
+  @ApiResponseType(IsAuthPresenter, true)
+  async register(@Body() registerData: RegisterDto) {
+    const user = await this.registerUserTestCasesProxy
+      .getInstance()
+      .execute(registerData);
+    return user;
+  }
+
   @Post('login')
-  @UseGuards(LoginGuard)
   @ApiBearerAuth()
   @ApiBody({ type: AuthLoginDto })
   @ApiOperation({ description: 'login' })
@@ -56,6 +68,7 @@ export class AuthController {
     const accessTokenCookie = await this.loginUsecaseProxy
       .getInstance()
       .getCookieWithJwtToken(auth.email);
+    console.log(accessTokenCookie);
     request.res.setHeader('Set-Cookie', [accessTokenCookie]);
     return 'Login successful';
   }
