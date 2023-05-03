@@ -6,7 +6,7 @@
     "plugins": [
       "@nestjs/swagger"
     ],
-    "webpack": true,
+    "webpack": false,
     "tsConfigPath": "apps/assignment/tsconfig.app.json"
   },
   "monorepo": true,
