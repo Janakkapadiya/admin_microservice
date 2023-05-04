@@ -2,7 +2,6 @@ import { DynamicModule, Module } from '@nestjs/common';
 import { EnvironmentConfigModule } from '@app/shared/infrastructure/config/environment-config/environment-config.module';
 import { DatabasePostRepository } from 'apps/assignment/src/infrastructure/repositories/post.repository';
 import { RepositoriesModule } from 'apps/assignment/src/infrastructure/repositories/repositories.module';
-import { DatabaseUserRepository } from 'apps/assignment/src/infrastructure/repositories/user.repository';
 import { BcryptModule } from '@app/shared/infrastructure/services/bcrypt/bcrypt.module';
 import { IsAuthenticatedUseCases } from 'apps/assignment/src/usecases/auth/isAuthenticated.usecases';
 import { LoginUseCases } from 'apps/assignment/src/usecases/auth/login.usecases';
@@ -27,6 +26,7 @@ import { BcryptService } from '@app/shared/infrastructure/services/bcrypt/bcrypt
 import { JwtTokenService } from '@app/shared/infrastructure/services/jwt/jwt.service';
 import { MailerModule } from '@app/shared/infrastructure/services/mail/mail.module';
 import { MailerService } from '@app/shared/infrastructure/services/mail/mailer.service';
+import { DatabaseUserRepository } from '../repositories/user.repository';
 
 @Module({
   imports: [

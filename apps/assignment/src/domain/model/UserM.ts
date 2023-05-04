@@ -1,4 +1,4 @@
-import { Role } from '../../../../../libs/shared/src/domain/enums/Roles.enum';
+import { Role } from '@app/shared/domain/enums/Roles.enum';
 
 export class UserWithoutPassword {
   id: number;
@@ -9,4 +9,9 @@ export class UserWithoutPassword {
 
 export class UserM extends UserWithoutPassword {
   password: string;
+}
+
+export class OrderM {
+  item: string;
+  amount: number;
 }

@@ -1,11 +1,4 @@
-import {
-  MigrationInterface,
-  QueryRunner,
-  Table,
-  TableColumn,
-  TableForeignKey,
-  TableIndex,
-} from 'typeorm';
+import { MigrationInterface, QueryRunner } from 'typeorm';
 
 export class create_user_and_posts_tables1612345678901
   implements MigrationInterface

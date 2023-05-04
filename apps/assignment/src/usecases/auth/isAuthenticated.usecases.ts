@@ -1,4 +1,4 @@
-import { IException } from '../../../../../libs/shared/src/domain/exceptions/exceptions.interface';
+import { IException } from '@app/shared';
 import { UserRepository } from '../../domain/interface/UserRepository';
 import { UserWithoutPassword, UserM } from '../../domain/model/UserM';
 

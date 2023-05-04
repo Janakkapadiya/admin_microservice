@@ -20,16 +20,14 @@ import {
 import RegisterDto, { AuthLoginDto } from './auth-dto.class';
 import { IsAuthPresenter } from './auth.presenter';
 
-import { JwtAuthGuard } from '../../../../../../libs/shared/src/infrastructure/common/guards/jwtAuth.guard';
-import { LoginGuard } from '../../../../../../libs/shared/src/infrastructure/common/guards/login.guard';
-
-import { LoginUseCases } from '../../../usecases/auth/login.usecases';
-import { IsAuthenticatedUseCases } from '../../../usecases/auth/isAuthenticated.usecases';
-import { LogoutUseCases } from '../../../usecases/auth/logout.usecases';
-import { UsecasesProxyModule } from 'apps/assignment/src/infrastructure/usecase-proxy/usecases-proxy.module';
-import { UseCaseProxy } from 'apps/assignment/src/infrastructure/usecase-proxy/usecases-proxy';
 import { ApiResponseType } from '@app/shared/infrastructure/common/swagger/res.decorator';
+import { UseCaseProxy } from 'apps/assignment/src/infrastructure/usecase-proxy/usecases-proxy';
+import { UsecasesProxyModule } from 'apps/assignment/src/infrastructure/usecase-proxy/usecases-proxy.module';
 import { RegisterUseCases } from 'apps/assignment/src/usecases/auth/register.user.usecase';
+import { JwtAuthGuard } from '@app/shared';
+import { IsAuthenticatedUseCases } from 'apps/assignment/src/usecases/auth/isAuthenticated.usecases';
+import { LoginUseCases } from 'apps/assignment/src/usecases/auth/login.usecases';
+import { LogoutUseCases } from 'apps/assignment/src/usecases/auth/logout.usecases';
 
 @Controller('auth')
 @ApiTags('auth')

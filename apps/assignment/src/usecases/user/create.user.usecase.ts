@@ -1,7 +1,7 @@
+import { MailerService } from '@app/shared';
+import { ExceptionsService } from '@app/shared/infrastructure/exceptions/exceptions.service';
 import { UserRepository } from '../../domain/interface/UserRepository';
 import { UserM } from '../../domain/model/UserM';
-import { MailerService } from '../../../../../libs/shared/src/infrastructure/services/mail/mailer.service';
-import { ExceptionsService } from '@app/shared/infrastructure/exceptions/exceptions.service';
 
 export class CreateUserUseCase {
   constructor(

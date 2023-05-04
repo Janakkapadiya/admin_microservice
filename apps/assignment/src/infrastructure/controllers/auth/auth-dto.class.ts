@@ -1,12 +1,6 @@
 import { Role } from '@app/shared/domain/enums/Roles.enum';
 import { ApiProperty } from '@nestjs/swagger';
-import {
-  IsBoolean,
-  IsEmail,
-  IsEnum,
-  IsNotEmpty,
-  IsString,
-} from 'class-validator';
+import { IsEmail, IsEnum, IsNotEmpty, IsString } from 'class-validator';
 
 export class AuthLoginDto {
   @ApiProperty({ required: true })

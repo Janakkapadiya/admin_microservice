@@ -1,3 +1,5 @@
+import { ApiResponseType, JwtAuthGuard, RoleGuard, Roles } from '@app/shared';
+import { Role } from '@app/shared/domain/enums/Roles.enum';
 import {
   Body,
   Controller,
@@ -7,20 +9,20 @@ import {
   Post,
   UseGuards,
 } from '@nestjs/common';
-import { CreateUserDto, UpdatePasswordDto } from './user-dto-class';
-import { UserPresenter } from './user.presenter';
+import { ClientProxy } from '@nestjs/microservices';
 import { ApiExtraModels, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { Role } from '@app/shared/domain/enums/Roles.enum';
-import { getUsersUseCases } from 'apps/assignment/src/usecases/user/all.user.usecase';
-import { CreateUserUseCase } from 'apps/assignment/src/usecases/user/create.user.usecase';
-import { UpdateUserPasswordUseCase } from 'apps/assignment/src/usecases/user/update.password.usecase';
 import { UseCaseProxy } from 'apps/assignment/src/infrastructure/usecase-proxy/usecases-proxy';
 import { UsecasesProxyModule } from 'apps/assignment/src/infrastructure/usecase-proxy/usecases-proxy.module';
-import { JwtAuthGuard } from '../../../../../../libs/shared/src/infrastructure/common/guards/jwtAuth.guard';
-import { RoleGuard } from '../../../../../../libs/shared/src/infrastructure/common/guards/roles.guard';
-import { Roles } from '../../../../../../libs/shared/src/infrastructure/common/decoretors/Roles.decoretor';
-import { ApiResponseType } from '../../../../../../libs/shared/src/infrastructure/common/swagger/res.decorator';
+import { getUsersUseCases } from 'apps/assignment/src/usecases/user/all.user.usecase';
+import { CreateUserUseCase } from 'apps/assignment/src/usecases/user/create.user.usecase';
 import { getUserByIdUseCases } from 'apps/assignment/src/usecases/user/getById.user.usecase';
+import { UpdateUserPasswordUseCase } from 'apps/assignment/src/usecases/user/update.password.usecase';
+import {
+  CreateUserDto,
+  PlaceOrderDto,
+  UpdatePasswordDto,
+} from './user-dto-class';
+import { UserPresenter } from './user.presenter';
 
 @Controller('user')
 @ApiTags('user')
@@ -36,6 +38,8 @@ export class UserController {
     private readonly getUsersUseCaseProxy: UseCaseProxy<getUsersUseCases>,
     @Inject(UsecasesProxyModule.UPDATE_USER_PASSWORD_USECASES_PROXY)
     private readonly updateUsersPasswordCaseProxy: UseCaseProxy<UpdateUserPasswordUseCase>,
+    @Inject('CONSUMER_SERVICE')
+    private readonly consumerService: ClientProxy,
   ) {}
 
   @Post('createByAdmin')
@@ -73,5 +77,21 @@ export class UserController {
     await this.updateUsersPasswordCaseProxy
       .getInstance()
       .execute(email, password);
+  }
+
+  @Roles(Role.User)
+  @UseGuards(JwtAuthGuard, RoleGuard)
+  @Post('placeOrder')
+  async placeOrder(@Body() placeOrderDto: PlaceOrderDto) {
+    const { itemName, amount } = placeOrderDto;
+    return this.consumerService.send(
+      {
+        cmd: 'placeOrder',
+      },
+      {
+        itemName,
+        amount,
+      },
+    );
   }
 }

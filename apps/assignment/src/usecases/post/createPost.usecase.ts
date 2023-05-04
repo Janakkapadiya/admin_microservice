@@ -1,5 +1,5 @@
+import { ILogger } from '@app/shared';
 import { PostRepository } from '../../domain/interface/PostRepository';
-import { ILogger } from '../../../../../libs/shared/src/domain/logger/Logger.interface';
 import { PostM } from '../../domain/model/PostsM';
 
 export class CreatePostUseCase {

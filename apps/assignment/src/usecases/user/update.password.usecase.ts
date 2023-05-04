@@ -1,5 +1,4 @@
-import { IBcryptService } from '../../../../../libs/shared/src/domain/adepters/bcrypt.interface';
-import { IException } from '../../../../../libs/shared/src/domain/exceptions/exceptions.interface';
+import { IException, IBcryptService } from '@app/shared';
 import { UserRepository } from '../../domain/interface/UserRepository';
 
 export class UpdateUserPasswordUseCase {

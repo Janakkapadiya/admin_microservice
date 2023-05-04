@@ -1,12 +1,12 @@
-import { IBcryptService } from '../../../../../libs/shared/src/domain/adepters/bcrypt.interface';
 import {
+  ILogger,
   IJwtService,
+  JWTConfig,
+  IBcryptService,
+  IException,
   IJwtServicePayload,
-} from '../../../../../libs/shared/src/domain/adepters/jwt.interface';
-import { JWTConfig } from '../../../../../libs/shared/src/domain/config/jwt.interface';
-import { IException } from '../../../../../libs/shared/src/domain/exceptions/exceptions.interface';
+} from '@app/shared';
 import { UserRepository } from '../../domain/interface/UserRepository';
-import { ILogger } from '../../../../../libs/shared/src/domain/logger/Logger.interface';
 
 export class LoginUseCases {
   constructor(
