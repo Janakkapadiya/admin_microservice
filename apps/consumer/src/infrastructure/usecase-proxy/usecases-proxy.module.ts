@@ -7,23 +7,23 @@ import { OrderRepositoriesModule } from '../repositories/orders.repository.modul
 @Module({
   imports: [OrderRepositoriesModule],
 })
-export class UsecasesProxyModule {
+export class UserUsecasesProxyModule {
   //place Order
   static PLACE_ORDER_USECASES_PROXY = 'placeOrderUseCaseProxy';
 
   static register(): DynamicModule {
     return {
-      module: UsecasesProxyModule,
+      module: UserUsecasesProxyModule,
       providers: [
         {
           inject: [DatabaseOrderRepository],
-          provide: UsecasesProxyModule.PLACE_ORDER_USECASES_PROXY,
+          provide: UserUsecasesProxyModule.PLACE_ORDER_USECASES_PROXY,
           useFactory: (userRepository: DatabaseOrderRepository) =>
             new UseCaseProxy(new RequestOrderUseCase(userRepository)),
         },
       ],
 
-      exports: [UsecasesProxyModule.PLACE_ORDER_USECASES_PROXY],
+      exports: [UserUsecasesProxyModule.PLACE_ORDER_USECASES_PROXY],
     };
   }
 }

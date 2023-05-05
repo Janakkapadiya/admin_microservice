@@ -1,32 +1,34 @@
-import { DynamicModule, Module } from '@nestjs/common';
-import { EnvironmentConfigModule } from '@app/shared/infrastructure/config/environment-config/environment-config.module';
-import { DatabasePostRepository } from 'apps/assignment/src/infrastructure/repositories/post.repository';
-import { RepositoriesModule } from 'apps/assignment/src/infrastructure/repositories/repositories.module';
-import { BcryptModule } from '@app/shared/infrastructure/services/bcrypt/bcrypt.module';
-import { IsAuthenticatedUseCases } from 'apps/assignment/src/usecases/auth/isAuthenticated.usecases';
-import { LoginUseCases } from 'apps/assignment/src/usecases/auth/login.usecases';
-import { LogoutUseCases } from 'apps/assignment/src/usecases/auth/logout.usecases';
-import { getUsersUseCases } from 'apps/assignment/src/usecases/user/all.user.usecase';
-import { UseCaseProxy } from './usecases-proxy';
-import { RegisterUseCases } from 'apps/assignment/src/usecases/auth/register.user.usecase';
-import { CreatePostUseCase } from 'apps/assignment/src/usecases/post/createPost.usecase';
-import { GetAllPostUseCase } from 'apps/assignment/src/usecases/post/getAllPost.usecase';
-import { DeletePostUseCase } from 'apps/assignment/src/usecases/post/deletePost.usecase';
-import { GetPostUseCase } from 'apps/assignment/src/usecases/post/getPost.usecase';
-import { CreateUserUseCase } from 'apps/assignment/src/usecases/user/create.user.usecase';
-import { UpdateUserPasswordUseCase } from 'apps/assignment/src/usecases/user/update.password.usecase';
-import { getUserByIdUseCases } from 'apps/assignment/src/usecases/user/getById.user.usecase';
-import { JwtModule } from '@app/shared/infrastructure/services/jwt/jwt.module';
-import { EnvironmentConfigService } from '@app/shared/infrastructure/config/environment-config/environment-config.service';
-import { ExceptionsModule } from '@app/shared/infrastructure/exceptions/exceptions.module';
-import { ExceptionsService } from '@app/shared/infrastructure/exceptions/exceptions.service';
-import { LoggerModule } from '@app/shared/infrastructure/logger/logger.module';
-import { LoggerService } from '@app/shared/infrastructure/logger/logger.service';
-import { BcryptService } from '@app/shared/infrastructure/services/bcrypt/bcrypt.service';
-import { JwtTokenService } from '@app/shared/infrastructure/services/jwt/jwt.service';
-import { MailerModule } from '@app/shared/infrastructure/services/mail/mail.module';
-import { MailerService } from '@app/shared/infrastructure/services/mail/mailer.service';
+import {
+  LoggerModule,
+  BcryptModule,
+  EnvironmentConfigModule,
+  ExceptionsModule,
+  MailerModule,
+  LoggerService,
+  JwtTokenService,
+  EnvironmentConfigService,
+  BcryptService,
+  ExceptionsService,
+  MailerService,
+} from '@app/shared';
+import { Module, DynamicModule } from '@nestjs/common';
+import { JwtModule } from '@nestjs/jwt';
+import { IsAuthenticatedUseCases } from '../../usecases/auth/isAuthenticated.usecases';
+import { LoginUseCases } from '../../usecases/auth/login.usecases';
+import { LogoutUseCases } from '../../usecases/auth/logout.usecases';
+import { RegisterUseCases } from '../../usecases/auth/register.user.usecase';
+import { CreatePostUseCase } from '../../usecases/post/createPost.usecase';
+import { DeletePostUseCase } from '../../usecases/post/deletePost.usecase';
+import { GetAllPostUseCase } from '../../usecases/post/getAllPost.usecase';
+import { GetPostUseCase } from '../../usecases/post/getPost.usecase';
+import { getUsersUseCases } from '../../usecases/user/all.user.usecase';
+import { CreateUserUseCase } from '../../usecases/user/create.user.usecase';
+import { getUserByIdUseCases } from '../../usecases/user/getById.user.usecase';
+import { UpdateUserPasswordUseCase } from '../../usecases/user/update.password.usecase';
+import { DatabasePostRepository } from '../repositories/post.repository';
+import { RepositoriesModule } from '../repositories/repositories.module';
 import { DatabaseUserRepository } from '../repositories/user.repository';
+import { UseCaseProxy } from './usecases-proxy';
 
 @Module({
   imports: [

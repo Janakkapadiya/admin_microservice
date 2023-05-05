@@ -12,21 +12,19 @@ services:
     env_file:
       - .env    
 
-  mysql:
+  mysqldb:
     image: mysql:5.7
-    container_name: rbac
+    container_name: mysqldb
     restart: always
-    env_file:
-      - .env
     environment:
-      MYSQL_DATABASE: rbac
-      MYSQL_ROOT_USER: root
-      MYSQL_PASSWORD: janak123
+      DATABASE_NAME: rbac
+      DATABASE_USER: root
+      DATABASE_PASSWORD: janak123
       MYSQL_ROOT_PASSWORD: janak123
     ports:
       - "3307:3306"  
     volumes:
-      - ./db/data:/var/lib/mysql 
+      - ./dbdata:/var/lib/mysql 
 
   assignment:
     build:
@@ -38,8 +36,8 @@ services:
       - .env
     depends_on:
       - rabbitmq
-      - consumer
-      - mysql
+      # - consumer
+      # - mysqldb
     volumes:
       - .:/usr/src/app
       - /usr/src/app/node_modules
@@ -53,7 +51,7 @@ services:
       - .env
     depends_on:
       - rabbitmq
-      - mysql
+      # - mysqldb
     volumes:
       - .:/usr/src/app
       - /usr/src/app/node_modules

@@ -7,7 +7,7 @@ import {
 } from '@nestjs/microservices';
 import { SharedService } from '@app/shared/rmq/rmqservice';
 import { OrderDto } from '../../domain/dto/orderdto';
-import { UsecasesProxyModule } from '../usecase-proxy/usecases-proxy.module';
+import { UserUsecasesProxyModule } from '../usecase-proxy/usecases-proxy.module';
 import { UseCaseProxy } from '../usecase-proxy/usecases-proxy';
 import { RequestOrderUseCase } from '../../usecases/orders/placeorder.usecases';
 
@@ -16,7 +16,7 @@ export class ConsumerController {
   constructor(
     @Inject('SharedServiceInterface')
     private readonly sharedService: SharedService,
-    @Inject(UsecasesProxyModule.PLACE_ORDER_USECASES_PROXY)
+    @Inject(UserUsecasesProxyModule.PLACE_ORDER_USECASES_PROXY)
     private readonly placeOrderUseCaseProxy: UseCaseProxy<RequestOrderUseCase>,
   ) {}
 

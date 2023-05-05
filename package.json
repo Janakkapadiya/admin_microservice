@@ -9,7 +9,6 @@
     "prebuild": "rimraf dist",
     "build:assignment": "nest build assignment",
     "build:consumer": "nest build consumer",
-    "build:shared": "nest build shared",
     "build": "nest build && nest build assignment && nest build consumer",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start --watch",

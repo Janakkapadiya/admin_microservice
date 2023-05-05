@@ -28,6 +28,7 @@ export class DatabaseOrderRepository implements OrderRepository {
 
     if (product) {
       product.amount -= amount;
+      console.log('your order has been placed');
       await this.userEntityRepository.save(product);
     }
   }

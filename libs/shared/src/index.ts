@@ -26,8 +26,8 @@ export * from './infrastructure/common/interceptors/response.interceptors';
 export * from './infrastructure/common/logger/logger.module';
 export * from './infrastructure/common/logger/logger.service';
 
-export * from './infrastructure/common/strategies/jwt.strategy';
-export * from './infrastructure/common/strategies/local.strategy';
+export * from '../../../apps/assignment/src/infrastructure/common/strategies/jwt.strategy';
+export * from '../../../apps/assignment/src/infrastructure/common/strategies/local.strategy';
 
 export * from './infrastructure/common/swagger/res.decorator';
 
@@ -46,3 +46,8 @@ export * from './infrastructure/services/jwt/jwt.service';
 
 export * from './infrastructure/services/mail/mail.module';
 export * from './infrastructure/services/mail/mailer.service';
+
+export * from './rmq/rmqmodule';
+export * from './rmq/rmqservice';
+
+export * from './domain/shared/sharedservice.interface';
