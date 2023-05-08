@@ -1,18 +1,16 @@
 import {
   LoggerModule,
   BcryptModule,
-  EnvironmentConfigModule,
   ExceptionsModule,
   MailerModule,
   LoggerService,
-  JwtTokenService,
-  EnvironmentConfigService,
   BcryptService,
   ExceptionsService,
   MailerService,
+  JwtTokenService,
+  JwtModule,
 } from '@app/shared';
 import { Module, DynamicModule } from '@nestjs/common';
-import { JwtModule } from '@nestjs/jwt';
 import { IsAuthenticatedUseCases } from '../../usecases/auth/isAuthenticated.usecases';
 import { LoginUseCases } from '../../usecases/auth/login.usecases';
 import { LogoutUseCases } from '../../usecases/auth/logout.usecases';
@@ -29,6 +27,8 @@ import { DatabasePostRepository } from '../repositories/post.repository';
 import { RepositoriesModule } from '../repositories/repositories.module';
 import { DatabaseUserRepository } from '../repositories/user.repository';
 import { UseCaseProxy } from './usecases-proxy';
+import { EnvironmentConfigModule } from '../../../../../libs/shared/src/infrastructure/config/environment-config/environment-config.module';
+import { EnvironmentConfigService } from '../../../../../libs/shared/src/infrastructure/config/environment-config/environment-config.service';
 
 @Module({
   imports: [

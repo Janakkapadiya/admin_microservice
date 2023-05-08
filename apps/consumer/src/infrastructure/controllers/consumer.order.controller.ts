@@ -22,6 +22,7 @@ export class ConsumerController {
 
   @MessagePattern({ cmd: 'placeOrder' })
   async placeOrder(@Ctx() context: RmqContext, @Payload() order: OrderDto) {
+    console.log(order);
     const { itemName, amount } = order;
     this.sharedService.acknowledgeMessage(context);
     return this.placeOrderUseCaseProxy.getInstance().execute(itemName, amount);

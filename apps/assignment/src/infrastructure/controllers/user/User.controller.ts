@@ -79,12 +79,12 @@ export class UserController {
       .execute(email, password);
   }
 
-  @Roles(Role.User)
-  @UseGuards(JwtAuthGuard, RoleGuard)
+  // @Roles(Role.User)
+  // @UseGuards(JwtAuthGuard, RoleGuard)
   @Post('placeOrder')
   async placeOrder(@Body() placeOrderDto: PlaceOrderDto) {
     const { itemName, amount } = placeOrderDto;
-    return this.consumerService.send(
+    this.consumerService.send(
       {
         cmd: 'placeOrder',
       },
@@ -93,5 +93,6 @@ export class UserController {
         amount,
       },
     );
+    return 'order has been placed';
   }
 }

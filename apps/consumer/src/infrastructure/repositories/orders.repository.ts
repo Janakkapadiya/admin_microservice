@@ -8,13 +8,14 @@ import { Product } from '../entity/product';
 export class DatabaseOrderRepository implements OrderRepository {
   constructor(
     @InjectRepository(Product)
-    private readonly userEntityRepository: Repository<Product>,
+    private readonly productRepository: Repository<Product>,
   ) {}
 
   async placeOrder(itemName: string, amount: number): Promise<void> {
-    const product = await this.userEntityRepository.findOne({
+    console.log(this.productRepository.exist ? true : false);
+    const product = await this.productRepository.findOne({
       where: {
-        itemName,
+        itemName: itemName,
       },
     });
     console.log(product);
@@ -29,7 +30,7 @@ export class DatabaseOrderRepository implements OrderRepository {
     if (product) {
       product.amount -= amount;
       console.log('your order has been placed');
-      await this.userEntityRepository.save(product);
+      await this.productRepository.save(product);
     }
   }
 }

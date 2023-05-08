@@ -21,7 +21,7 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./jest-e2e.json --coverage",
-    "typeorm": "NODE_ENV=local npm run build && npx typeorm -d dist/apps/assignment/apps/assignment/src/domain/config/typeorm/typeorm.config.js",
+    "typeorm": "NODE_ENV=local npm run build && npx typeorm -d dist/apps/assignment/apps/assignment/src/infrastructure/config/typeorm/typeorm.config.js",
     "migration:generate": "npm run typeorm -- migration:generate",
     "migration:run": "npm run typeorm -- migration:run",
     "migration:create": "npm run typeorm -- migration:create",

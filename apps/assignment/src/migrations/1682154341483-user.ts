@@ -31,10 +31,20 @@ export class create_user_and_posts_tables1612345678901
           ON UPDATE CASCADE
       ) ENGINE=InnoDB`,
     );
+
+    await queryRunner.query(
+      `CREATE TABLE \`product\` (
+        \`product_id\` bigint NOT NULL AUTO_INCREMENT,
+        \`itemName\` varchar(255) NOT NULL,
+        \`amount\` bigint NOT NULL,
+        PRIMARY KEY (\`product_id\`)
+      ) ENGINE=InnoDB`,
+    );
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query(`DROP TABLE \`posts\``);
     await queryRunner.query(`DROP TABLE \`user\``);
+    await queryRunner.query(`DROP TABLE \`product\``);
   }
 }

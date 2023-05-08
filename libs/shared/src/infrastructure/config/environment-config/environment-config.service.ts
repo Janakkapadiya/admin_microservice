@@ -1,8 +1,6 @@
+import { DatabaseConfig, EmailConfig, JWTConfig } from '@app/shared';
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { JWTConfig } from '../../../domain/config/jwt.interface';
-import { DatabaseConfig } from '@app/shared/domain/config/DatabaseConfig';
-import { EmailConfig } from '@app/shared/domain/config/EmailConfig';
 
 @Injectable()
 export class EnvironmentConfigService

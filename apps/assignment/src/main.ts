@@ -6,11 +6,16 @@ import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import * as cookieParser from 'cookie-parser';
 import { AppModule } from './app.module';
+import { ConfigService } from '@nestjs/config';
+import { SharedService } from '@app/shared';
 
 async function bootstrap() {
   const env = process.env.NODE_ENV;
 
   const app = await NestFactory.create(AppModule);
+
+  const configService = app.get(ConfigService);
+  const sharedService = app.get(SharedService);
 
   app.use(cookieParser());
 
@@ -38,6 +43,11 @@ async function bootstrap() {
     });
     SwaggerModule.setup('api', app, document);
   }
+
+  const queue = configService.get('RABBITMQ_ASSIGNMENT_QUEUE');
+
+  app.connectMicroservice(sharedService.getRmqOptions(queue));
+  await app.startAllMicroservices();
 
   await app.listen(3000);
 }

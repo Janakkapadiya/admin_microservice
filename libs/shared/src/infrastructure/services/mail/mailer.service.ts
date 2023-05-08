@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import * as nodemailer from 'nodemailer';
 import { SentMessageInfo } from 'nodemailer/lib/smtp-transport';
-import { EnvironmentConfigService } from '../../config/environment-config/environment-config.service';
 import { IEmailService } from '@app/shared/domain/adepters/email.interface';
+import { EnvironmentConfigService } from '@app/shared/infrastructure/config/environment-config/environment-config.service';
 
 @Injectable()
 export class MailerService implements IEmailService {

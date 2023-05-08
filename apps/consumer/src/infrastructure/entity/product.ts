@@ -1,8 +1,8 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
-@Entity('posts')
+@Entity('product')
 export class Product {
-  @PrimaryGeneratedColumn({ type: 'bigint' })
+  @PrimaryGeneratedColumn({ name: 'product_id', type: 'bigint' })
   id: number;
 
   @Column('varchar')

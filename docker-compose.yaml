@@ -17,16 +17,18 @@ services:
     container_name: mysqldb
     restart: always
     environment:
-      DATABASE_NAME: rbac
-      DATABASE_USER: root
-      DATABASE_PASSWORD: janak123
+      MYSQL_DATABASE: rbac
+      MYSQL_USER: root
+      MYSQL_PASSWORD: janak123
       MYSQL_ROOT_PASSWORD: janak123
+      MYSQL_ROOT_HOST: 172.19.0.1
     ports:
-      - "3307:3306"  
+      - "3306:3306"  
     volumes:
       - ./dbdata:/var/lib/mysql 
 
   assignment:
+    container_name: assignment
     build:
       context: ./
       dockerfile: ./apps/assignment/Dockerfile
@@ -36,14 +38,15 @@ services:
       - .env
     depends_on:
       - rabbitmq
-      # - consumer
-      # - mysqldb
+      - consumer
+      - mysqldb
     volumes:
       - .:/usr/src/app
       - /usr/src/app/node_modules
     command: npm run start:dev assignment
 
   consumer:
+    container_name: consumer
     build:
       context: ./
       dockerfile: ./apps/consumer/Dockerfile
@@ -51,7 +54,7 @@ services:
       - .env
     depends_on:
       - rabbitmq
-      # - mysqldb
+      - mysqldb
     volumes:
       - .:/usr/src/app
       - /usr/src/app/node_modules

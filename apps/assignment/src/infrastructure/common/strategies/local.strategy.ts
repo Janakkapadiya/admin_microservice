@@ -10,7 +10,7 @@ import { LoggerService } from '@app/shared/infrastructure/logger/logger.service'
 @Injectable()
 export class LocalStrategy extends PassportStrategy(Strategy) {
   constructor(
-    @Inject(UsecasesProxyModule?.LOGIN_USECASES_PROXY)
+    @Inject(UsecasesProxyModule.LOGIN_USECASES_PROXY)
     private readonly loginUsecaseProxy: UseCaseProxy<LoginUseCases>,
     private readonly logger: LoggerService,
     @Inject('IException')

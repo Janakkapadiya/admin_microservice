@@ -18,8 +18,8 @@ const config: DataSourceOptions = {
   entities: [join(__dirname, '**', '*.entity.{ts,js}')],
   synchronize: false,
   migrationsRun: true,
-  migrationsTableName: 'migration_todo',
-  migrations: ['dist/migrations/*.js'],
+  migrationsTableName: 'migration',
+  migrations: ['dist/apps/assignment/apps/assignment/src/migrations/*.js'],
 };
 
 const dataSource = new DataSource(config);
