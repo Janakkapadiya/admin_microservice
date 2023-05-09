@@ -9,8 +9,13 @@ import {
   Post,
   UseGuards,
 } from '@nestjs/common';
-import { ClientProxy } from '@nestjs/microservices';
-import { ApiExtraModels, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ClientProxy, Ctx, RmqContext } from '@nestjs/microservices';
+import {
+  ApiBearerAuth,
+  ApiExtraModels,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 import { UseCaseProxy } from 'apps/assignment/src/infrastructure/usecase-proxy/usecases-proxy';
 import { UsecasesProxyModule } from 'apps/assignment/src/infrastructure/usecase-proxy/usecases-proxy.module';
 import { getUsersUseCases } from 'apps/assignment/src/usecases/user/all.user.usecase';
@@ -84,7 +89,7 @@ export class UserController {
   @Post('placeOrder')
   async placeOrder(@Body() placeOrderDto: PlaceOrderDto) {
     const { itemName, amount } = placeOrderDto;
-    this.consumerService.send(
+    const response = this.consumerService.send(
       {
         cmd: 'placeOrder',
       },
@@ -93,6 +98,6 @@ export class UserController {
         amount,
       },
     );
-    return 'order has been placed';
+    return response;
   }
 }

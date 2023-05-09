@@ -1,10 +1,14 @@
 import { Module } from '@nestjs/common';
 import { UserUsecasesProxyModule } from '../usecase-proxy/usecases-proxy.module';
 import { ConsumerController } from './consumer.order.controller';
-import { SharedService } from '@app/shared';
+import {
+  ExceptionsModule,
+  ExceptionsService,
+  SharedService,
+} from '@app/shared';
 
 @Module({
-  imports: [UserUsecasesProxyModule.register()],
+  imports: [UserUsecasesProxyModule.register(), ExceptionsModule],
   controllers: [ConsumerController],
   providers: [
     {
