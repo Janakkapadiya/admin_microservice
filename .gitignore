@@ -4,3 +4,4 @@ node_modules
 dist
 .db.env
 dbdata
+docker-compose.yaml

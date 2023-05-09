@@ -5,5 +5,8 @@ dist
 .git
 .gitignore
 .dockerignore
+dbdata
+
+docker-compose.yaml
 
 README.md
