@@ -1,8 +1,8 @@
 import { DataSource, DataSourceOptions } from 'typeorm';
 import * as dotenv from 'dotenv';
-import { join } from 'path';
+// import { join } from 'path';
 
-if (process.env.NODE_ENV === 'local') {
+if (process.env.NODE_ENV === 'local' || process.env.NODE_ENV === 'test') {
   dotenv.config({ path: '.env' });
 }
 
@@ -15,9 +15,10 @@ const config: DataSourceOptions = {
   username: process.env.DATABASE_USER,
   password: process.env.DATABASE_PASSWORD,
   database: process.env.DATABASE_NAME,
-  entities: [join(__dirname, '**', '*.entity.{ts,js}')],
+  entities: [__dirname, '**', '*.entity.{ts,js}'],
   synchronize: false,
   migrationsRun: true,
+  dropSchema: true,
   migrationsTableName: 'migration',
   migrations: ['dist/apps/assignment/apps/assignment/src/migrations/*.js'],
 };

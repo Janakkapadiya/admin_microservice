@@ -1,36 +1,6 @@
-# FROM node:alpine as development
+FROM node:alpine as local
 
-# WORKDIR /usr/src/app
-
-# COPY package*.json ./
-
-# RUN npm install
-
-# COPY . .
-
-# RUN npm run build consumer
-
-# FROM node:alpine as local
-# ARG NODE_ENV=local
-# ENV NODE_ENV=${NODE_ENV}
-
-# WORKDIR /usr/src/app
-
-# COPY package*.json ./
-
-# RUN npm install --only=local
-
-# COPY . .
-
-# COPY --from=development /usr/src/app/dist ./dist
-
-# CMD ["node", "dist/apps/consumer/main"]
-
-
-
-FROM node:14 AS builder
-
-WORKDIR /app
+WORKDIR /usr/src/app
 
 COPY package*.json ./
 
@@ -38,14 +8,39 @@ RUN npm install
 
 COPY . .
 
-RUN npm run build
+RUN npm run build:consumer
 
-FROM node:14
+FROM node:alpine as production
 
-COPY --from=builder /app/node_modules ./node_modules
-COPY --from=builder /app/package*.json ./
-COPY --from=builder /app/dist ./dist
+ARG NODE_ENV=Production
+ENV NODE_ENV=${NODE_ENV}
 
-EXPOSE 7000
+WORKDIR /usr/src/app
 
-CMD [ "npm", "start" ]
+COPY package*.json ./
+
+RUN npm install --only=production
+
+COPY . .
+
+COPY --from=local /usr/src/app/dist ./dist
+
+CMD ["node", "dist/apps/consumer/main"]
+
+
+
+# FROM node:16 
+
+# WORKDIR /app
+
+# COPY package*.json ./
+
+# RUN npm install
+
+# COPY . .
+
+# RUN npm run build:consumer
+
+# EXPOSE 6000
+
+# CMD [ "npm","run","start:prod:consumer" ]

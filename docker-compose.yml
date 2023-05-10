@@ -1,0 +1,94 @@
+version: '3.9'
+
+services:
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    hostname: rabbitmq
+    volumes:
+      - /var/lib/rabbitmq
+    ports:
+      - '5672:5672'
+      - '15672:15672'
+    env_file:
+      - .env    
+
+  mysqldb:
+    image: mysql:5.7
+    container_name: mysqldb
+    environment:
+      # MYSQL_DATABASE: rbac_db
+      # MYSQL_PASSWORD: janak123 
+      MYSQL_ROOT_PASSWORD: janak123
+    ports:
+      - '33066:3306'    
+    volumes:
+      - ./dbdata:/var/lib/mysql 
+    networks: 
+      - microservice-network
+    # extra_hosts:
+    #   - "host.docker.internal:172.22.0.1"    
+
+  assignment:
+    container_name: assignment
+    image: janak8899/assignment:1.0.0
+    build:
+      context: .
+      dockerfile: ./apps/assignment/Dockerfile
+      target: local
+    command: npm run start:dev assignment
+    env_file:
+      - .env
+    # environment:
+    #   - NODE_ENV=local
+    #   - DB_TYPE=mysql
+    #   - SQL_HOST=mysqldb 
+    #   - SQL_USER=janak
+    #   - SQL_PASSWORD=janak123
+    #   - SQL_DB=rbac_db
+    #   - SQL_PORT=33066
+    depends_on:
+      - rabbitmq
+      - consumer
+      - mysqldb  
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    ports:
+      - '3000:3000'
+  
+  consumer:
+    container_name: consumer
+    restart: on-failure
+    image: janak8899/consumer:1.0.0
+    build:
+      context: .
+      dockerfile: ./apps/consumer/Dockerfile
+      target: local
+    command: npm run start:dev consumer  
+    env_file:
+      - .env
+    environment:
+      - NODE_ENV=local
+      - DB_TYPE=mysql
+      - SQL_HOST=mysqldb 
+      - SQL_USER=janak
+      - SQL_PASSWORD=janak123
+      - SQL_DB=rbac_db
+      - SQL_PORT=33066
+    depends_on:
+      - rabbitmq
+      - mysqldb
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    ports:
+      - '6000:6000'  
+
+volumes:
+  dbdata:
+    driver: local    
+
+networks: 
+  microservice-network:
+    driver: bridge  
