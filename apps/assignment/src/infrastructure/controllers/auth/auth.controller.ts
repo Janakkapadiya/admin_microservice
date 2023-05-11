@@ -84,12 +84,15 @@ export class AuthController {
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
   @ApiOperation({ description: 'is_authenticated' })
+  @ApiResponseType(IsAuthPresenter, false)
   async isAuthenticated(@Req() request: any) {
     const user = await this.isAuthUsecaseProxy
       .getInstance()
-      .execute(request.user.username);
+      .execute(request.user.email);
+    console.log(user);
     const response = new IsAuthPresenter();
     response.email = user.email;
-    return response.email;
+    console.log(response.email);
+    return response;
   }
 }

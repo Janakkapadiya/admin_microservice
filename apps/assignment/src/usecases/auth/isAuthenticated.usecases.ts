@@ -17,6 +17,7 @@ export class IsAuthenticatedUseCases {
       });
     }
     const { password, ...info } = user;
+    console.log(info);
     return info;
   }
 }

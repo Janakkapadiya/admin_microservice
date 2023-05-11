@@ -21,7 +21,7 @@ export class CreateUserUseCase {
       await this.emailSendService.sendEmail(
         user.email,
         'please change your password',
-        user.name,
+        `hey ${user.name} please change to your new custom password`,
       );
       const create = await this.userRepository.createUser(user);
       console.log('createUser test case -> ', create);

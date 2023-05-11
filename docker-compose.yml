@@ -23,7 +23,7 @@ services:
       - .env  
     environment:
       MYSQL_DATABASE: ${DATABASE_NAME}
-      MYSQL_USER: ${DATABASE_USER}
+      # MYSQL_USER: ${DATABASE_USER}
       MYSQL_PASSWORD: ${DATABASE_PASSWORD}
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       SERVICE_NAME: mysqldb_image
@@ -53,7 +53,12 @@ services:
       DATABASE_NAME: ${DATABASE_NAME}
       DATABASE_SCHEMA: ${DATABASE_SCHEMA}
       DATABASE_SYNCHRONIZE: ${DATABASE_SYNCHRONIZE}
-    command: npm run start:dev assignment
+    command:
+      - /bin/bash
+      - -c
+      - |
+        npm run typeorm migration:run 
+        npm run start:dev
     depends_on:
       - rabbit_mq
       - consumer

@@ -6,6 +6,10 @@ COPY package*.json ./
 
 RUN npm install
 
+RUN apk update && apk add bash
+
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+
 COPY . .
 
 RUN npm run build:assignment

@@ -84,8 +84,8 @@ export class UserController {
       .execute(email, password);
   }
 
-  // @Roles(Role.User)
-  // @UseGuards(JwtAuthGuard, RoleGuard)
+  @Roles(Role.User)
+  @UseGuards(JwtAuthGuard, RoleGuard)
   @Post('placeOrder')
   async placeOrder(@Body() placeOrderDto: PlaceOrderDto) {
     const { itemName, amount } = placeOrderDto;
