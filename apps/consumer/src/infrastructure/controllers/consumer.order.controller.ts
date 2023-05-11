@@ -19,7 +19,6 @@ export class ConsumerController {
     private readonly sharedService: SharedService,
     @Inject(UserUsecasesProxyModule.PLACE_ORDER_USECASES_PROXY)
     private readonly placeOrderUseCaseProxy: UseCaseProxy<RequestOrderUseCase>,
-    private readonly exception: ExceptionsService,
   ) {}
 
   @MessagePattern({ cmd: 'placeOrder' })

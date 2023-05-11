@@ -19,11 +19,13 @@ services:
     image: mysql:8.0
     container_name: mysqldb_image
     command: --default-authentication-plugin=mysql_native_password
+    env_file:
+      - .env  
     environment:
-      MYSQL_DATABASE: rbac_db
-      MYSQL_USER: root
-      MYSQL_PASSWORD: janak123
-      MYSQL_ROOT_PASSWORD: janak123
+      MYSQL_DATABASE: ${DATABASE_NAME}
+      MYSQL_USER: ${DATABASE_USER}
+      MYSQL_PASSWORD: ${DATABASE_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       SERVICE_NAME: mysqldb_image
     ports:
       - '3306:3306'  
@@ -40,15 +42,17 @@ services:
       context: .
       dockerfile: ./apps/assignment/Dockerfile
       target: local
+    env_file:
+      - .env  
     environment:
-      NODE_ENV: local
+      NODE_ENV: ${NODE_ENV}
       DATABASE_HOST: mysqldb_image
-      DATABASE_PORT: 3306
-      DATABASE_USER: root
-      DATABASE_PASSWORD: janak123
-      DATABASE_NAME: rbac_db
-      DATABASE_SCHEMA: public
-      DATABASE_SYNCHRONIZE: false
+      DATABASE_PORT: ${DATABASE_PORT}
+      DATABASE_USER: ${DATABASE_USER}
+      DATABASE_PASSWORD: ${DATABASE_PASSWORD}
+      DATABASE_NAME: ${DATABASE_NAME}
+      DATABASE_SCHEMA: ${DATABASE_SCHEMA}
+      DATABASE_SYNCHRONIZE: ${DATABASE_SYNCHRONIZE}
     command: npm run start:dev assignment
     depends_on:
       - rabbit_mq
@@ -72,15 +76,17 @@ services:
       context: .
       dockerfile: ./apps/consumer/Dockerfile
       target: local
+    env_file:
+      - .env  
     environment:
-      NODE_ENV: local
+      NODE_ENV: ${NODE_ENV}
       DATABASE_HOST: mysqldb_image
-      DATABASE_PORT: 3306
-      DATABASE_USER: root
-      DATABASE_PASSWORD: janak123
-      DATABASE_NAME: rbac_db
-      DATABASE_SCHEMA: public
-      DATABASE_SYNCHRONIZE: false
+      DATABASE_PORT: ${DATABASE_PORT}
+      DATABASE_USER: ${DATABASE_USER}
+      DATABASE_PASSWORD: ${DATABASE_PASSWORD}
+      DATABASE_NAME: ${DATABASE_NAME}
+      DATABASE_SCHEMA: ${DATABASE_SCHEMA}
+      DATABASE_SYNCHRONIZE: ${DATABASE_SYNCHRONIZE}
     command: npm run start:dev consumer  
     depends_on:
       - rabbit_mq

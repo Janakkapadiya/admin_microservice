@@ -5,3 +5,6 @@ dist
 .db.env
 dbdata
 docker-compose.yaml
+
+
+docker-envs/.database.env
