@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { EnvironmentConfigModule } from '../../../../../../libs/shared/src/infrastructure/config/environment-config/environment-config.module';
 import { EnvironmentConfigService } from '../../../../../../libs/shared/src/infrastructure/config/environment-config/environment-config.service';
+import { join } from 'path';
 
 export const getTypeOrmModuleOptions = (
   config: EnvironmentConfigService,
@@ -13,12 +14,11 @@ export const getTypeOrmModuleOptions = (
     username: config.getDatabaseUser(),
     password: config.getDatabasePassword(),
     database: config.getDatabaseName(),
-    entities: [__dirname, '**', '*.entity.{ts,js}'],
-    // apps/consumer/src/infrastructure/entity/product.ts
+    entities: [join(__dirname, '**', '*.entity.{ts,js}')],
     synchronize: false,
     migrationsRun: true,
     dropSchema: true,
-    migrations: [__dirname + '/migrations/**/*{.ts,.js}'],
+    migrations: [join(__dirname + '/migrations/**/*{.ts,.js}')],
     autoLoadEntities: true,
   } as TypeOrmModuleOptions);
 

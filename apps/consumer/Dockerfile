@@ -4,6 +4,7 @@ WORKDIR /usr/src/app
 
 COPY package*.json ./
 
+
 RUN npm install
 
 COPY . .
@@ -18,6 +19,7 @@ ENV NODE_ENV=${NODE_ENV}
 WORKDIR /usr/src/app
 
 COPY package*.json ./
+
 
 RUN npm install --only=production
 

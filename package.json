@@ -12,7 +12,7 @@
     "build": "nest build && nest build assignment && nest build consumer",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start --watch",
-    "start:dev": "NODE_ENV=local nest start --watch",
+    "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
     "start:prod:assignment": "node dist/apps/assignment/apps/assignment/src/main.js",
     "start:prod:consumer": "node dist/apps/consumer/apps/consumer/src/main.js",

@@ -1,9 +1,9 @@
 version: '3.9'
 
 services:
-  rabbitmq:
+  rabbit_mq:
     image: rabbitmq:3-management
-    container_name: rabbitmq
+    container_name: rabbitmq_image
     hostname: rabbitmq
     volumes:
       - /var/lib/rabbitmq
@@ -11,51 +11,58 @@ services:
       - '5672:5672'
       - '15672:15672'
     env_file:
-      - .env    
+      - .env
+    networks: 
+      - microservice-network      
 
-  mysqldb:
-    image: mysql:5.7
-    container_name: mysqldb
+  mysql_db:
+    image: mysql:8.0
+    container_name: mysqldb_image
+    command: --default-authentication-plugin=mysql_native_password
     environment:
-      # MYSQL_DATABASE: rbac_db
-      # MYSQL_PASSWORD: janak123 
+      MYSQL_DATABASE: rbac_db
+      MYSQL_USER: root
+      MYSQL_PASSWORD: janak123
       MYSQL_ROOT_PASSWORD: janak123
+      SERVICE_NAME: mysqldb_image
     ports:
-      - '33066:3306'    
+      - '3306:3306'  
     volumes:
       - ./dbdata:/var/lib/mysql 
     networks: 
-      - microservice-network
-    # extra_hosts:
-    #   - "host.docker.internal:172.22.0.1"    
+      - microservice-network   
 
   assignment:
     container_name: assignment
+    restart: on-failure
     image: janak8899/assignment:1.0.0
     build:
       context: .
       dockerfile: ./apps/assignment/Dockerfile
       target: local
+    environment:
+      NODE_ENV: local
+      DATABASE_HOST: mysqldb_image
+      DATABASE_PORT: 3306
+      DATABASE_USER: root
+      DATABASE_PASSWORD: janak123
+      DATABASE_NAME: rbac_db
+      DATABASE_SCHEMA: public
+      DATABASE_SYNCHRONIZE: false
     command: npm run start:dev assignment
-    env_file:
-      - .env
-    # environment:
-    #   - NODE_ENV=local
-    #   - DB_TYPE=mysql
-    #   - SQL_HOST=mysqldb 
-    #   - SQL_USER=janak
-    #   - SQL_PASSWORD=janak123
-    #   - SQL_DB=rbac_db
-    #   - SQL_PORT=33066
     depends_on:
-      - rabbitmq
+      - rabbit_mq
       - consumer
-      - mysqldb  
+      - mysql_db  
     volumes:
       - .:/usr/src/app
       - /usr/src/app/node_modules
     ports:
       - '3000:3000'
+    expose:
+      - '3000'  
+    networks: 
+      - microservice-network      
   
   consumer:
     container_name: consumer
@@ -65,25 +72,28 @@ services:
       context: .
       dockerfile: ./apps/consumer/Dockerfile
       target: local
-    command: npm run start:dev consumer  
-    env_file:
-      - .env
     environment:
-      - NODE_ENV=local
-      - DB_TYPE=mysql
-      - SQL_HOST=mysqldb 
-      - SQL_USER=janak
-      - SQL_PASSWORD=janak123
-      - SQL_DB=rbac_db
-      - SQL_PORT=33066
+      NODE_ENV: local
+      DATABASE_HOST: mysqldb_image
+      DATABASE_PORT: 3306
+      DATABASE_USER: root
+      DATABASE_PASSWORD: janak123
+      DATABASE_NAME: rbac_db
+      DATABASE_SCHEMA: public
+      DATABASE_SYNCHRONIZE: false
+    command: npm run start:dev consumer  
     depends_on:
-      - rabbitmq
-      - mysqldb
+      - rabbit_mq
+      - mysql_db
     volumes:
       - .:/usr/src/app
       - /usr/src/app/node_modules
     ports:
       - '6000:6000'  
+    expose:
+      - '6000'
+    networks: 
+      - microservice-network      
 
 volumes:
   dbdata:

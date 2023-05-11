@@ -1,12 +1,3 @@
 node_modules
 dist
 *.env
-
-.git
-.gitignore
-.dockerignore
-dbdata
-
-docker-compose.yaml
-
-README.md
