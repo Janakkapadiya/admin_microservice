@@ -1,6 +1,7 @@
-import { IException, BcryptService } from '@app/shared';
-import { UserRepository } from '../../domain/interface/UserRepository';
-import { UserM } from '../../domain/model/UserM';
+import { IException } from '@app/shared';
+import { UserRepository } from 'apps/assignment/src/domain/interface/UserRepository';
+import { UserM } from 'apps/assignment/src/domain/model/UserM';
+import { BcryptService } from '../../infrastructure/services/bcrypt/bcrypt.service';
 
 export class RegisterUseCases {
   constructor(

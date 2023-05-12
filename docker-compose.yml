@@ -23,7 +23,7 @@ services:
       - .env  
     environment:
       MYSQL_DATABASE: ${DATABASE_NAME}
-      # MYSQL_USER: ${DATABASE_USER}
+      MYSQL_USER: ${DATABASE_USER}
       MYSQL_PASSWORD: ${DATABASE_PASSWORD}
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       SERVICE_NAME: mysqldb_image
@@ -62,6 +62,7 @@ services:
     depends_on:
       - rabbit_mq
       - consumer
+      - auth
       - mysql_db  
     volumes:
       - .:/usr/src/app
@@ -104,7 +105,39 @@ services:
     expose:
       - '6000'
     networks: 
-      - microservice-network      
+      - microservice-network  
+
+  auth:
+    container_name: auth
+    restart: on-failure
+    image: janak8899/auth:1.0.0
+    build:
+      context: .
+      dockerfile: ./apps/auth/Dockerfile
+      target: local
+    env_file:
+      - .env  
+    environment:
+      NODE_ENV: ${NODE_ENV}
+      DATABASE_HOST: mysqldb_image
+      DATABASE_PORT: ${DATABASE_PORT}
+      DATABASE_USER: ${DATABASE_USER}
+      DATABASE_PASSWORD: ${DATABASE_PASSWORD}
+      DATABASE_NAME: ${DATABASE_NAME}
+      DATABASE_SCHEMA: ${DATABASE_SCHEMA}
+      DATABASE_SYNCHRONIZE: ${DATABASE_SYNCHRONIZE}
+    command: npm run start:dev auth  
+    depends_on:
+      - mysql_db
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    ports:
+      - '9000:9000'  
+    expose:
+      - '9000'
+    networks: 
+      - microservice-network              
 
 volumes:
   dbdata:

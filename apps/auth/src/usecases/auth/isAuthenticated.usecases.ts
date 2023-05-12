@@ -1,6 +1,9 @@
 import { IException } from '@app/shared';
-import { UserRepository } from '../../domain/interface/UserRepository';
-import { UserWithoutPassword, UserM } from '../../domain/model/UserM';
+import { UserRepository } from 'apps/assignment/src/domain/interface/UserRepository';
+import {
+  UserM,
+  UserWithoutPassword,
+} from 'apps/assignment/src/domain/model/UserM';
 
 export class IsAuthenticatedUseCases {
   constructor(

@@ -1,19 +1,17 @@
 import { Strategy } from 'passport-local';
 import { PassportStrategy } from '@nestjs/passport';
 import { Inject, Injectable } from '@nestjs/common';
-import { LoginUseCases } from 'apps/assignment/src/usecases/auth/login.usecases';
-import { UsecasesProxyModule } from 'apps/assignment/src/infrastructure/usecase-proxy/usecases-proxy.module';
 import { UseCaseProxy } from 'apps/assignment/src/infrastructure/usecase-proxy/usecases-proxy';
-import { ExceptionsService } from '@app/shared';
-import { LoggerService } from '@app/shared/infrastructure/logger/logger.service';
+import { ExceptionsService, LoggerService } from '@app/shared';
+import { LoginUseCases } from 'apps/auth/src/usecases/auth/login.usecases';
+import { AuthUsecasesProxyModule } from '../../usecase-proxy/usecases-proxy.module';
 
 @Injectable()
 export class LocalStrategy extends PassportStrategy(Strategy) {
   constructor(
-    @Inject(UsecasesProxyModule.LOGIN_USECASES_PROXY)
+    @Inject(AuthUsecasesProxyModule.LOGIN_USECASES_PROXY)
     private readonly loginUsecaseProxy: UseCaseProxy<LoginUseCases>,
     private readonly logger: LoggerService,
-    @Inject('IException')
     private readonly exceptionService: ExceptionsService,
   ) {
     super();

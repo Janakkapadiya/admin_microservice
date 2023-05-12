@@ -1,16 +1,16 @@
-import { ExtractJwt, Strategy } from 'passport-jwt';
-import { PassportStrategy } from '@nestjs/passport';
-import { Inject, Injectable } from '@nestjs/common';
-import { Request } from 'express';
-import { UseCaseProxy } from '../../usecase-proxy/usecases-proxy';
-import { LoginUseCases } from 'apps/assignment/src/usecases/auth/login.usecases';
 import { ExceptionsService, LoggerService } from '@app/shared';
-import { UsecasesProxyModule } from 'apps/assignment/src/infrastructure/usecase-proxy/usecases-proxy.module';
+import { Inject, Injectable } from '@nestjs/common';
+import { PassportStrategy } from '@nestjs/passport';
+import { LoginUseCases } from 'apps/auth/src/usecases/auth/login.usecases';
+import { Request } from 'express';
+import { ExtractJwt, Strategy } from 'passport-jwt';
+import { UseCaseProxy } from '../../usecase-proxy/usecases-proxy';
+import { AuthUsecasesProxyModule } from '../../usecase-proxy/usecases-proxy.module';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
   constructor(
-    @Inject(UsecasesProxyModule.LOGIN_USECASES_PROXY)
+    @Inject(AuthUsecasesProxyModule.LOGIN_USECASES_PROXY)
     private readonly loginUsecaseProxy: UseCaseProxy<LoginUseCases>,
     private readonly logger: LoggerService,
     private readonly exceptionService: ExceptionsService,

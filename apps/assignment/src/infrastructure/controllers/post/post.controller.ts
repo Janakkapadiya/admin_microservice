@@ -16,8 +16,9 @@ import { GetAllPostUseCase } from 'apps/assignment/src/usecases/post/getAllPost.
 import { GetPostUseCase } from 'apps/assignment/src/usecases/post/getPost.usecase';
 import { UseCaseProxy } from 'apps/assignment/src/infrastructure/usecase-proxy/usecases-proxy';
 import { UsecasesProxyModule } from 'apps/assignment/src/infrastructure/usecase-proxy/usecases-proxy.module';
-import { JwtAuthGuard, RoleGuard, Roles } from '@app/shared';
+import { RoleGuard, Roles } from '@app/shared';
 import { CreatePostDto } from './post.dto';
+import { JwtAuthGuard } from 'apps/auth/src/infrastructure/common/guards/jwtAuth.guard';
 
 @Controller('post')
 @ApiTags('post')

@@ -1,4 +1,4 @@
-import { ApiResponseType, JwtAuthGuard, RoleGuard, Roles } from '@app/shared';
+import { ApiResponseType, RoleGuard, Roles } from '@app/shared';
 import { Role } from '@app/shared/domain/enums/Roles.enum';
 import {
   Body,
@@ -28,6 +28,7 @@ import {
   UpdatePasswordDto,
 } from './user-dto-class';
 import { UserPresenter } from './user.presenter';
+import { JwtAuthGuard } from 'apps/auth/src/infrastructure/common/guards/jwtAuth.guard';
 
 @Controller('user')
 @ApiTags('user')

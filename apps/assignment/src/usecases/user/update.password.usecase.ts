@@ -1,5 +1,6 @@
-import { IException, IBcryptService } from '@app/shared';
+import { IException } from '@app/shared';
 import { UserRepository } from '../../domain/interface/UserRepository';
+import { IBcryptService } from 'apps/auth/src/domain/adepters/bcrypt.interface';
 
 export class UpdateUserPasswordUseCase {
   constructor(

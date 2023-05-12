@@ -1,20 +1,12 @@
 import {
   LoggerModule,
-  BcryptModule,
   ExceptionsModule,
   MailerModule,
   LoggerService,
-  BcryptService,
   ExceptionsService,
   MailerService,
-  JwtTokenService,
-  JwtModule,
 } from '@app/shared';
 import { Module, DynamicModule } from '@nestjs/common';
-import { IsAuthenticatedUseCases } from '../../usecases/auth/isAuthenticated.usecases';
-import { LoginUseCases } from '../../usecases/auth/login.usecases';
-import { LogoutUseCases } from '../../usecases/auth/logout.usecases';
-import { RegisterUseCases } from '../../usecases/auth/register.user.usecase';
 import { CreatePostUseCase } from '../../usecases/post/createPost.usecase';
 import { DeletePostUseCase } from '../../usecases/post/deletePost.usecase';
 import { GetAllPostUseCase } from '../../usecases/post/getAllPost.usecase';
@@ -28,25 +20,22 @@ import { RepositoriesModule } from '../repositories/repositories.module';
 import { DatabaseUserRepository } from '../repositories/user.repository';
 import { UseCaseProxy } from './usecases-proxy';
 import { EnvironmentConfigModule } from '../../../../../libs/shared/src/infrastructure/config/environment-config/environment-config.module';
-import { EnvironmentConfigService } from '../../../../../libs/shared/src/infrastructure/config/environment-config/environment-config.service';
+import { BcryptService } from 'apps/auth/src/infrastructure/services/bcrypt/bcrypt.service';
+import { AuthModule } from '../../../../auth/src/auth.module';
+import { BcryptModule } from '../../../../auth/src/infrastructure/services/bcrypt/bcrypt.module';
 
 @Module({
   imports: [
     LoggerModule,
-    JwtModule,
-    BcryptModule,
     EnvironmentConfigModule,
     RepositoriesModule,
     ExceptionsModule,
     MailerModule,
+    AuthModule,
+    BcryptModule,
   ],
 })
 export class UsecasesProxyModule {
-  // Auth
-  static LOGIN_USECASES_PROXY = 'LoginUseCasesProxy';
-  static IS_AUTHENTICATED_USECASES_PROXY = 'IsAuthenticatedUseCasesProxy';
-  static LOGOUT_USECASES_PROXY = 'LogoutUseCasesProxy';
-
   static GET_POST_USECASES_PROXY = 'getPostUsecasesProxy';
   static GET_POSTS_USECASES_PROXY = 'getPostsUsecasesProxy';
   static CREATE_POST_USECASES_PROXY = 'createPostUsecasesProxy';
@@ -56,9 +45,6 @@ export class UsecasesProxyModule {
   static GET_USER_BY_ID_USECASES_PROXY = 'deleteUserUsecasesProxy';
   // signup
   static CREATE_USER_USECASES_PROXY = 'createUserUsecasesProxy';
-
-  static REGISTER_USER_USECASES_PROXY = 'registerUserTestCasesProxy';
-
   //update password
   static UPDATE_USER_PASSWORD_USECASES_PROXY = 'updateUserPasswordProxy';
 
@@ -66,49 +52,6 @@ export class UsecasesProxyModule {
     return {
       module: UsecasesProxyModule,
       providers: [
-        {
-          inject: [
-            LoggerService,
-            JwtTokenService,
-            EnvironmentConfigService,
-            DatabaseUserRepository,
-            BcryptService,
-            ExceptionsService,
-          ],
-          provide: UsecasesProxyModule.LOGIN_USECASES_PROXY,
-          useFactory: (
-            logger: LoggerService,
-            jwtTokenService: JwtTokenService,
-            config: EnvironmentConfigService,
-            userRepo: DatabaseUserRepository,
-            bcryptService: BcryptService,
-            exception: ExceptionsService,
-          ) =>
-            new UseCaseProxy(
-              new LoginUseCases(
-                logger,
-                jwtTokenService,
-                config,
-                userRepo,
-                bcryptService,
-                exception,
-              ),
-            ),
-        },
-        {
-          inject: [DatabaseUserRepository, ExceptionsService],
-          provide: UsecasesProxyModule.IS_AUTHENTICATED_USECASES_PROXY,
-          useFactory: (
-            userRepo: DatabaseUserRepository,
-            exception: ExceptionsService,
-          ) =>
-            new UseCaseProxy(new IsAuthenticatedUseCases(userRepo, exception)),
-        },
-        {
-          inject: [],
-          provide: UsecasesProxyModule.LOGOUT_USECASES_PROXY,
-          useFactory: () => new UseCaseProxy(new LogoutUseCases()),
-        },
         {
           inject: [DatabasePostRepository],
           provide: UsecasesProxyModule.GET_POST_USECASES_PROXY,
@@ -134,18 +77,6 @@ export class UsecasesProxyModule {
           provide: UsecasesProxyModule.DELETE_POST_USECASES_PROXY,
           useFactory: (postRepository: DatabasePostRepository) =>
             new UseCaseProxy(new DeletePostUseCase(postRepository)),
-        },
-        {
-          inject: [DatabaseUserRepository, ExceptionsService, BcryptService],
-          provide: UsecasesProxyModule.REGISTER_USER_USECASES_PROXY,
-          useFactory: (
-            userRepository: DatabaseUserRepository,
-            exception: ExceptionsService,
-            bycrypt: BcryptService,
-          ) =>
-            new UseCaseProxy(
-              new RegisterUseCases(userRepository, exception, bycrypt),
-            ),
         },
         {
           inject: [DatabaseUserRepository, ExceptionsService, MailerService],
@@ -202,14 +133,9 @@ export class UsecasesProxyModule {
         UsecasesProxyModule.CREATE_POST_USECASES_PROXY,
         UsecasesProxyModule.DELETE_POST_USECASES_PROXY,
         // **********
-        UsecasesProxyModule.LOGIN_USECASES_PROXY,
-        UsecasesProxyModule.IS_AUTHENTICATED_USECASES_PROXY,
-        UsecasesProxyModule.LOGOUT_USECASES_PROXY,
-        // **********
         UsecasesProxyModule.CREATE_USER_USECASES_PROXY,
         UsecasesProxyModule.GET_USERS_USECASES_PROXY,
         UsecasesProxyModule.GET_USER_BY_ID_USECASES_PROXY,
-        UsecasesProxyModule.REGISTER_USER_USECASES_PROXY,
         // ************
         UsecasesProxyModule.UPDATE_USER_PASSWORD_USECASES_PROXY,
       ],

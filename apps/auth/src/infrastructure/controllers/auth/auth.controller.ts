@@ -22,12 +22,12 @@ import { IsAuthPresenter } from './auth.presenter';
 
 import { ApiResponseType } from '@app/shared/infrastructure/common/swagger/res.decorator';
 import { UseCaseProxy } from 'apps/assignment/src/infrastructure/usecase-proxy/usecases-proxy';
-import { UsecasesProxyModule } from 'apps/assignment/src/infrastructure/usecase-proxy/usecases-proxy.module';
-import { RegisterUseCases } from 'apps/assignment/src/usecases/auth/register.user.usecase';
-import { JwtAuthGuard } from '@app/shared';
-import { IsAuthenticatedUseCases } from 'apps/assignment/src/usecases/auth/isAuthenticated.usecases';
-import { LoginUseCases } from 'apps/assignment/src/usecases/auth/login.usecases';
-import { LogoutUseCases } from 'apps/assignment/src/usecases/auth/logout.usecases';
+import { AuthUsecasesProxyModule } from '../../usecase-proxy/usecases-proxy.module';
+import { LoginUseCases } from 'apps/auth/src/usecases/auth/login.usecases';
+import { LogoutUseCases } from 'apps/auth/src/usecases/auth/logout.usecases';
+import { IsAuthenticatedUseCases } from 'apps/auth/src/usecases/auth/isAuthenticated.usecases';
+import { RegisterUseCases } from 'apps/auth/src/usecases/auth/register.user.usecase';
+import { JwtAuthGuard } from '../../common/guards/jwtAuth.guard';
 
 @Controller('auth')
 @ApiTags('auth')
@@ -39,13 +39,13 @@ import { LogoutUseCases } from 'apps/assignment/src/usecases/auth/logout.usecase
 @ApiExtraModels(IsAuthPresenter)
 export class AuthController {
   constructor(
-    @Inject(UsecasesProxyModule.LOGIN_USECASES_PROXY)
+    @Inject(AuthUsecasesProxyModule.LOGIN_USECASES_PROXY)
     private readonly loginUsecaseProxy: UseCaseProxy<LoginUseCases>,
-    @Inject(UsecasesProxyModule.LOGOUT_USECASES_PROXY)
+    @Inject(AuthUsecasesProxyModule.LOGOUT_USECASES_PROXY)
     private readonly logoutUsecaseProxy: UseCaseProxy<LogoutUseCases>,
-    @Inject(UsecasesProxyModule.IS_AUTHENTICATED_USECASES_PROXY)
+    @Inject(AuthUsecasesProxyModule.IS_AUTHENTICATED_USECASES_PROXY)
     private readonly isAuthUsecaseProxy: UseCaseProxy<IsAuthenticatedUseCases>,
-    @Inject(UsecasesProxyModule.REGISTER_USER_USECASES_PROXY)
+    @Inject(AuthUsecasesProxyModule.REGISTER_USER_USECASES_PROXY)
     private readonly registerUserTestCasesProxy: UseCaseProxy<RegisterUseCases>,
   ) {}
 

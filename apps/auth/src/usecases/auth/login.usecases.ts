@@ -1,12 +1,11 @@
+import { ILogger, IException } from '@app/shared';
 import {
-  ILogger,
   IJwtService,
-  JWTConfig,
-  IBcryptService,
-  IException,
   IJwtServicePayload,
-} from '@app/shared';
-import { UserRepository } from '../../domain/interface/UserRepository';
+} from '../../domain/adepters/jwt.interface';
+import { UserRepository } from 'apps/assignment/src/domain/interface/UserRepository';
+import { IBcryptService } from '../../domain/adepters/bcrypt.interface';
+import { JWTConfig } from '../../domain/config/jwt.conf.interface';
 
 export class LoginUseCases {
   constructor(
