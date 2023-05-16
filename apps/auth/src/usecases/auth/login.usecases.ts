@@ -32,26 +32,27 @@ export class LoginUseCases {
   async validateUserForLocalStragtegy(email: string, pass: string) {
     const user = await this.userRepository.findByEmail(email);
     if (!user) {
-      this.exception.UnauthorizedException({
+      return this.exception.UnauthorizedException({
         message: 'user could not found so can not validate user',
         code_error: 401,
       });
     }
     const match = await this.bcryptService.compare(pass, user.password);
     if (user && match) {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { password, ...result } = user;
       return result;
     }
-    this.exception.forbiddenException({
+    return this.exception.forbiddenException({
       message: "password doesn't match",
       code_error: 403,
     });
   }
 
-  async validateUserForJWTStragtegy(email: string) {
+  async validateUserForJWTStrategy(email: string) {
     const user = await this.userRepository.findByEmail(email);
     if (!user) {
-      this.exception.UnauthorizedException({
+      return this.exception.UnauthorizedException({
         message: 'user could not found so can not validate user',
         code_error: 401,
       });

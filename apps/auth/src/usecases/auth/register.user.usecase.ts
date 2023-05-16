@@ -1,13 +1,13 @@
 import { IException } from '@app/shared';
 import { UserRepository } from 'apps/assignment/src/domain/interface/UserRepository';
 import { UserM } from 'apps/assignment/src/domain/model/UserM';
-import { BcryptService } from '../../infrastructure/services/bcrypt/bcrypt.service';
+import { IBcryptService } from '../../domain/adepters/bcrypt.interface';
 
 export class RegisterUseCases {
   constructor(
     private readonly userRepository: UserRepository,
     private readonly exception: IException,
-    private readonly bcrypt: BcryptService,
+    private readonly bcrypt: IBcryptService,
   ) {}
 
   async execute(user: UserM): Promise<UserM> {
@@ -19,6 +19,7 @@ export class RegisterUseCases {
         code_error: 403,
       });
     }
+    console.log(hashedPassword);
     return await this.userRepository.register({
       ...user,
       password: hashedPassword,
