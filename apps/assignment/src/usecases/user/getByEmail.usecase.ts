@@ -1,11 +1,11 @@
-import { ExceptionsService } from '@app/shared/infrastructure/exceptions/exceptions.service';
 import { UserRepository } from '../../domain/interface/UserRepository';
 import { UserM } from '../../domain/model/UserM';
+import { IException } from '@app/shared';
 
 export class getUserByEmailUseCases {
   constructor(
     private readonly userRepository: UserRepository,
-    private readonly exceptionsService: ExceptionsService,
+    private readonly exceptionsService: IException,
   ) {}
   async execute(email: string): Promise<UserM> {
     const result = await this.userRepository.findByEmail(email);

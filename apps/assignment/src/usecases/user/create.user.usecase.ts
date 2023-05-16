@@ -1,13 +1,12 @@
-import { MailerService } from '@app/shared';
-import { ExceptionsService } from '@app/shared/infrastructure/exceptions/exceptions.service';
+import { IEmailService, IException } from '@app/shared';
 import { UserRepository } from '../../domain/interface/UserRepository';
 import { UserM } from '../../domain/model/UserM';
 
 export class CreateUserUseCase {
   constructor(
     private readonly userRepository: UserRepository,
-    private readonly exceptionsService: ExceptionsService,
-    private readonly emailSendService: MailerService,
+    private readonly exceptionsService: IException,
+    private readonly emailSendService: IEmailService,
   ) {}
 
   async execute(user: UserM): Promise<UserM> {
@@ -24,7 +23,6 @@ export class CreateUserUseCase {
         `hey ${user.name} please change to your new custom password`,
       );
       const create = await this.userRepository.createUser(user);
-      console.log('createUser test case -> ', create);
       return create;
     }
   }

@@ -72,13 +72,10 @@ export class AuthUsecasesProxyModule {
             ),
         },
         {
-          inject: [DatabaseUserRepository, ExceptionsService],
+          inject: [DatabaseUserRepository],
           provide: AuthUsecasesProxyModule.IS_AUTHENTICATED_USECASES_PROXY,
-          useFactory: (
-            userRepo: DatabaseUserRepository,
-            exception: ExceptionsService,
-          ) =>
-            new UseCaseProxy(new IsAuthenticatedUseCases(userRepo, exception)),
+          useFactory: (userRepo: DatabaseUserRepository) =>
+            new UseCaseProxy(new IsAuthenticatedUseCases(userRepo)),
         },
         {
           inject: [],

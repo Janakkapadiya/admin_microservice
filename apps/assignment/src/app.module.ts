@@ -7,7 +7,7 @@ import { MailerModule } from '../../../libs/shared/src/infrastructure/services/m
 import { AppService } from './app.service';
 import { ControllersModule } from './infrastructure/controllers/controllers.module';
 
-import { ExceptionsService, LoggerService } from '@app/shared';
+import { ExceptionsService, LoggerService, Role } from '@app/shared';
 import { EnvironmentConfigModule } from '../../../libs/shared/src/infrastructure/config/environment-config/environment-config.module';
 import { TypeOrmConfigModule } from './infrastructure/config/typeorm/typeorm.module';
 import { AuthModule } from 'apps/auth/src/auth.module';
