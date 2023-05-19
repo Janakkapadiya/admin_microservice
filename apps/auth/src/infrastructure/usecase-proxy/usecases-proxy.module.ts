@@ -1,10 +1,3 @@
-import {
-  LoggerModule,
-  ExceptionsModule,
-  MailerModule,
-  LoggerService,
-  ExceptionsService,
-} from '@app/shared';
 import { Module, DynamicModule } from '@nestjs/common';
 import { IsAuthenticatedUseCases } from '../../usecases/auth/isAuthenticated.usecases';
 import { LoginUseCases } from '../../usecases/auth/login.usecases';
@@ -15,10 +8,15 @@ import { EnvironmentConfigModule } from '../../../../../libs/shared/src/infrastr
 import { EnvironmentConfigService } from '../../../../../libs/shared/src/infrastructure/config/environment-config/environment-config.service';
 import { JwtModule } from '../services/jwt/jwt.module';
 import { BcryptModule } from '../services/bcrypt/bcrypt.module';
-import { RepositoriesModule } from 'apps/assignment/src/infrastructure/repositories/repositories.module';
+import { RepositoriesModule } from '../../../../assignment/src/infrastructure/repositories/repositories.module';
 import { JwtTokenService } from '../services/jwt/jwt.service';
-import { DatabaseUserRepository } from 'apps/assignment/src/infrastructure/repositories/user.repository';
+import { DatabaseUserRepository } from '../../../../assignment/src/infrastructure/repositories/user.repository';
 import { BcryptService } from '../services/bcrypt/bcrypt.service';
+import { LoggerModule } from './../../../../../libs/shared/src/infrastructure/logger/logger.module';
+import { ExceptionsModule } from './../../../../../libs/shared/src/infrastructure/exceptions/exceptions.module';
+import { MailerModule } from './../../../../../libs/shared/src/infrastructure/services/mail/mail.module';
+import { LoggerService } from './../../../../../libs/shared/src/infrastructure/logger/logger.service';
+import { ExceptionsService } from './../../../../../libs/shared/src/infrastructure/exceptions/exceptions.service';
 
 @Module({
   imports: [

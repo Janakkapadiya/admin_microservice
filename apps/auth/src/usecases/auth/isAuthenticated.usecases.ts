@@ -9,8 +9,8 @@ export class IsAuthenticatedUseCases {
 
   async execute(email: string): Promise<UserWithoutPassword> {
     const user: UserM = await this.adminUserRepo.findByEmail(email);
+    console.log('*****************************************', user);
     const { password, ...info } = user;
-    console.log(info);
     return info;
   }
 }

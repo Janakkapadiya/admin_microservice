@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { MailerService } from './mailer.service';
-import { EnvironmentConfigService } from '@app/shared/infrastructure/config/environment-config/environment-config.service';
+import { EnvironmentConfigService } from '../../../infrastructure/config/environment-config/environment-config.service';
 
 @Module({
   providers: [MailerService, EnvironmentConfigService],

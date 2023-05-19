@@ -186,8 +186,8 @@ describe('usecases/authentication', () => {
   describe('logout', () => {
     it('should logged out', async () => {
       expect(await logoutUseCases.execute()).toEqual([
-        'Authentication=; HttpOnly; Path=/; Max-Age=0',
-        'Refresh=; HttpOnly; Path=/; Max-Age=0',
+        'Authentication=; HttpOnly; Path=/; maxAge=0',
+        'Refresh=; HttpOnly; Path=/; maxAge=0',
       ]);
     });
   });

@@ -1,4 +1,5 @@
-import { ExceptionsService, LoggerService } from '@app/shared';
+import { LoggerService } from './../../../../../../libs/shared/src/infrastructure/logger/logger.service';
+import { ExceptionsService } from './../../../../../../libs/shared/src/infrastructure/exceptions/exceptions.service';
 import { Inject, Injectable } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { LoginUseCases } from 'apps/auth/src/usecases/auth/login.usecases';
